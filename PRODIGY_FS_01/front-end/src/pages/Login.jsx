@@ -60,7 +60,8 @@ const Login = () => {
 
             // alert('Logged in successfully');
             if (role === 'admin') {
-                navigate('/AdminDashboard'); 
+                window.location.href = 'http://localhost:4000';
+                // navigate('/AdminDashboard'); 
             } else {
                 navigate('/home'); 
             }
