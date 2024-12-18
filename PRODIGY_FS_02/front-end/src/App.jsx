@@ -5,7 +5,7 @@ import Employee from './components/Employee';
 import Profile from './components/Profile';
 import Logout from './components/Logout'
 import AddCatagory from './components/AddCatagory';
-
+import AddEmployee from './components/AddEmployee'
 const App = () => {
   return(
     <BrowserRouter>
@@ -16,6 +16,7 @@ const App = () => {
           <Route path="Profile" element={<Profile />} />
           <Route path="Logout" element={<Logout />} />
           <Route path="AddCatagory" element={<AddCatagory />} />
+          <Route path="AddEmployee" element={<AddEmployee />} />
       </Route>
       </Routes>
 

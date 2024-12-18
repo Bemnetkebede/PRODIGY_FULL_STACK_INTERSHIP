@@ -8,6 +8,6 @@ const dbConnection = mysql.createPool({
     user: process.env.USER,
     database :  process.env.DATABASE,
     password : process.env.PASSWORD
-})
+}).promise()
 
-module.exports = dbConnection.promise()
+module.exports = dbConnection

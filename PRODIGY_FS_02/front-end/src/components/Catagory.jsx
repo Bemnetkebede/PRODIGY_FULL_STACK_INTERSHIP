@@ -24,17 +24,24 @@ const Catagory = () => {
                     <button className="bg-[#09585B] text-whit rounded-md px-4 py-2 hover:text-white ">Add to Catagory</button>
                 </Link>
             </div>
-            <div className="my-4">
-                
+            <div className="my-4 ">
+                <div className="text-bold space-x-10 ml-10 font-bold text-xl">
+                    <span>Id</span> 
+                    <span>Name</span>
+                </div>
+                <hr className="w-[390px]  border-t-1 border-[#09585B] my-1 ml-6" />
             {category.map((item, index) => (
-                <div className="ml-8 space-x-5 "
+                
+                <div className="  text-black "
                 key={index}>
-                    <span>{index+1}</span>
+                    <span className="mx-10">{index+1}</span>
                     <span>{item.name}</span>
+                    <hr className="w-[390px]  border-t-1 border-[#09585B] my-1 ml-6" />
                 </div>
                 ))}
+                
             </div>
-            <hr className="w-[390px] ml-5 border-t-1 border-[#09585B]" />
+    
             
         </div>
     )
