@@ -1,69 +1,75 @@
+
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const AddEmployee = () => {
+
+const Edit_employee = () => {
     const navigate = useNavigate();
-    const [employee, setEmployee] = useState({
-        name: "",
-        email: "",
-        salary: '',
-        address: "",
-        category: "",
-    });
-    const [category, setCategory] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const { id } = useParams();
+        const [employee, setEmployee] = useState({
+            name: "",
+            email: "",
+            salary: '',
+            address: "",
+            category: "",
+        });
+        const [category, setCategory] = useState([]);
+        const [error, setError] = useState(null);
+        const [loading, setLoading] = useState(false);
+    
+        // Fetch categories on component mount
+        useEffect(() => {
+            axios.get('http://localhost:5500/api/AddCatagory')
+            .then(result=>{
+                if(result.data.status){
+                    setCategory(result.data.Result)
+                }
+                else{
+                    alert(result.data.Error)
+                }
+                axios.get(`http://localhost:5500/api/employee/${id}`)
+                .then(result => {
+                    setEmployee({
+                        name: result.data.Result[0].name,
+                        email: result.data.Result[0].email,
+                        address: result.data.Result[0].address,
+                        salary: result.data.Result[0].salary,
+                        category: result.data.Result[0].category,
+                    });
+                })
+                .catch(err => console.log(err));
 
-    // Fetch categories on component mount
-    useEffect(() => {
-        axios.get('http://localhost:5500/api/AddCatagory')
-        .then(result=>{
-            if(result.data.status){
-                setCategory(result.data.Result)
-            }
-            else{
-                alert(result.data.Error)
-            }
-        })
-    }, []);
 
-    // Form submission handler
-    const handleSubmit = async (e) => {
+            })
+        }, [id]);
+            // Handle form submission
+        const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form is being submitted...");
         setLoading(true);
+        setError(null); 
 
-        const dataToSend = {
-            name: employee.name,
-            email: employee.email,
-            address: employee.address,
-            salary: employee.salary,
-            category: employee.category,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:5500/api/AddEmployee', dataToSend);
-            console.log("Response from server:", response.data);
-            if (response.data.status) {
-                navigate('/AdminDashboard/Employee');
-            } else {
-                setError(response.data.Error || "Failed to add employee");
-            }
-        } catch (err) {
-            setError(err.message || "An error occurred while submitting the form");
-        } finally {
-            setLoading(false);
-        }
+        axios.put(`http://localhost:5500/api/edit_employee/${id}`, employee)
+            .then(() => {
+                setLoading(false);
+                alert("Employee updated successfully!");
+                navigate('/AdminDashboard/Employee'); // Navigate after successful update
+            })
+            .catch(err => {
+                setLoading(false);
+                console.log(err);
+                setError("Failed to update employee. Please try again.");
+            });
     };
 
     return (
-        <div className='grid place-items-center text-white'>
+        <>
+            <div className='grid place-items-center text-white'>
             <div className='pt-6 pb-8 max-w-sm w-full'>
                 <div className='grid place-items-center'>
-                    <div className='border border-[#09585B]  pt-6 pb-8 px-3 max-w-sm w-full rounded-md'>
-                        <form onSubmit={handleSubmit} className='space-y-5'>
-                            <div className='text-3xl font-bold grid place-items-center'>
+                    <div className='border border-[#09585B] pt-6 pb-8 px-3 max-w-sm w-full rounded-md'>
+                        <form onSubmit={handleSubmit} className='space-y-5 '>
+                        <div className='text-3xl font-bold grid place-items-center'>
                                 Add Employee
                             </div>
                             <div>
@@ -150,11 +156,7 @@ const AddEmployee = () => {
                 </div>
             </div>
         </div>
-    );
-};
-
-export default AddEmployee;
-
-
-
-
+        </>
+    )}
+    
+export default Edit_employee

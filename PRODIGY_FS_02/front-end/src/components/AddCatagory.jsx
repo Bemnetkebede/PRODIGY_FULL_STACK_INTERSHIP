@@ -22,8 +22,8 @@ const AddCatagory = () => {
     return (
         <div>
             <div className="grid place-items-center">
-                <div className="text-white border border-black mt-[80px] pt-5 pb-8 max-w-sm w-full  grid place-items-center rounded-md">
-                <p className="text-3xl text-black font-bold text-center  ">Add Catagory</p>
+                <div className="text-white border border-[#09585B] mt-[80px] pt-5 pb-8 max-w-sm w-full  grid place-items-center rounded-md">
+                <p className="text-3xl text-white font-bold text-center  ">Add Catagory</p>
                     <div className="">
                         <p className="text-xl text-[#09585B] font-bold  ml-3 mb-2 pt-4">Catagory</p>
                         <form onSubmit={handleSubmit}   className="space-y-5 ml-2">

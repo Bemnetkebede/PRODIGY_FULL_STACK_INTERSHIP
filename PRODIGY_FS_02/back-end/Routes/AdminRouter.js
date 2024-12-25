@@ -92,6 +92,126 @@ router.get('/AddEmployee', async (req, res) => {
     }
 });
 
+router.get('/employee/:id', async (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM employee WHERE id = ?";
+    
+    try {
+        const [result] = await dbConnection.query(sql, [id]);
+
+        return res.json({
+            Status: true,
+            Result: result
+        });
+    } catch (err) {
+        return res.json({
+            Status: false,
+            Error: "Query Error: " + err
+        });
+    }
+});
+
+
+
+router.put('/edit_employee/:id', async (req, res) => {
+    const id = req.params.id;
+
+    const sql = `
+        UPDATE employee 
+        SET name = ?, email = ?, salary = ?, address = ?, category = ? 
+        WHERE id = ?
+    `;
+
+    const values = [
+        req.body.name,
+        req.body.email,
+        req.body.salary,
+        req.body.address,
+        req.body.category,
+    ];
+
+    try {
+        // Using async/await for the query
+        const [result] = await dbConnection.query(sql, [...values, id]);
+
+        return res.json({
+            Status: true,
+            Result: result
+        });
+    } catch (err) {
+        return res.json({
+            Status: false,
+            Error: "Query Error: " + err
+        });
+    }
+});
+
+router.delete('/delete_employee/:id', async (req, res) => {
+    const id = req.params.id;
+    const sql = "DELETE FROM employee WHERE id = ?";
+
+    try {
+        const [result] = await new Promise((resolve, reject) => {
+            dbConnection.query(sql, [id], (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+
+        return res.json({ Status: true, Result: result });
+    } catch (err) {
+        return res.json({ Status: false, Error: "Query Error: " + err });
+    }
+});
+
+// router.get('/admin_count', async (req, res) => {
+//     const sql = "SELECT COUNT(*) AS admin_count FROM signup WHERE role = 'admin'";
+//     try {
+//         const [result] = await dbConnection.query(sql); 
+//         return res.json({ Status: true, Result: result });
+//     } catch (err) {
+//         return res.json({ Status: false, Error: "Query Error: " + err });
+//     }
+// });
+
+router.get('/admin_count', async (req, res) => {
+    const sql = "SELECT COUNT(*) AS admin_count FROM signup WHERE role = 'admin'";
+    try {
+        const [result] = await dbConnection.query(sql);
+        console.log("Admin Count:", result[0].admin_count); 
+        return res.json({ Status: true, Result: result });
+    } catch (err) {
+        return res.json({ Status: false, Error: "Query Error: " + err });
+    }
+});
+
+router.get('/employee_count', async (req, res) => {
+    const sql = 'SELECT COUNT(*) AS employee_count FROM employee;';
+    try {
+        const [rows] = await dbConnection.query(sql); // Destructure the rows
+        console.log("Employee count:", rows[0].employee_count);
+        return res.json({ Status: true, Result: rows[0] });
+    } catch (error) {
+        console.error('Error fetching employee count:', error);
+        return res.status(500).json({ Status: false, Error: 'Internal server error' });
+    }
+});
+
+router.get('/total_salary', async (req, res) => {
+    const sql = 'SELECT SUM(salary) AS total_salary FROM employee;';
+    try {
+        const [rows] = await dbConnection.query(sql); // Destructure the rows
+        console.log("Total salary:", rows[0].total_salary);
+        return res.json({ Status: true, Result: rows[0] });
+    } catch (error) {
+        console.error('Error fetching total salary:', error);
+        return res.status(500).json({ Status: false, Error: 'Internal server error' });
+    }
+});
+
+
+
+
 
 
 module.exports = router;

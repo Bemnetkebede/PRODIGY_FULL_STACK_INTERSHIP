@@ -21,12 +21,7 @@ const Home = () => {
             navigate('/login');  
         }
     }, [navigate]);  
-    const handleLogout = (e) => {
-        e.preventDefault()
-        localStorage.removeItem('username');
-        localStorage.removeItem('email');
-        navigate('/login');  
-    };
+ 
 
     return (
         <>
@@ -44,7 +39,6 @@ const Home = () => {
                     <button
                         type="submit"
                         className="text-center bg-[#09585B] px-[110px] py-2 rounded-md hover:text-black hover:border-black "
-                        onClick={handleLogout}
                     >
                             LOGOUT
                         </button>

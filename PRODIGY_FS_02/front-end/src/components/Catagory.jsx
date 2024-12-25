@@ -15,28 +15,26 @@ const Catagory = () => {
             }).catch(err => console.log(err));
     }, []);
     return (
-        <div className="text-black">
+        <div className="text-white py-10 ">
             <div>
-                <h3 className='font-bold grid place-items-center text-2xl'>Catagory List</h3>
+                <h3 className='font-bold grid place-items-center text-3xl text-[#09585B]'>Catagory List</h3>
             </div>
-            <div className="text-right mr-32 mb-10 ">
+            <div className="text-right mr-32 mb-10 mt-10">
                 <Link to='/AdminDashboard/AddCatagory' className="">
                     <button className="bg-[#09585B] text-whit rounded-md px-4 py-2 hover:text-white ">Add to Catagory</button>
                 </Link>
             </div>
-            <div className="my-4 ">
-                <div className="text-bold space-x-10 ml-10 font-bold text-xl">
+            <div className="border border-[#09585B] py-5 w-[350px]  ml-24 rounded-md ">
+                <div className="text-bold space-x-20 font-bold text-2xl ml-14">
                     <span>Id</span> 
                     <span>Name</span>
                 </div>
-                <hr className="w-[390px]  border-t-1 border-[#09585B] my-1 ml-6" />
             {category.map((item, index) => (
                 
-                <div className="  text-black "
+                <div className="  text-white my-3 mx"
                 key={index}>
-                    <span className="mx-10">{index+1}</span>
+                    <span className="mx-16 ">{index+1}</span>
                     <span>{item.name}</span>
-                    <hr className="w-[390px]  border-t-1 border-[#09585B] my-1 ml-6" />
                 </div>
                 ))}
                 
